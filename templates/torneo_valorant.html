@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscripción Valorant - ALL STARS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)),
+                        url("{{ url_for('static', filename='fondo_valorant.png') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .desc-section {
+            padding-right: 40px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .valorant-red {
+            color: #ff4655;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 70, 85, 0.5);
+        }
+
+        .form-container {
+            background: rgba(15, 15, 15, 0.9);
+            border-radius: 10px;
+            padding: 40px;
+            border-right: 5px solid #ff4655;
+            backdrop-filter: blur(10px);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        .form-control, .form-select {
+            background: #222 !important;
+            border: 1px solid #444 !important;
+            color: white !important;
+            border-radius: 0;
+        }
+
+        /* Estilo para los grupos de dificultad en Valorant */
+        optgroup {
+            background: #111;
+            color: #ff4655;
+            font-weight: bold;
+            font-style: normal;
+        }
+        option {
+            background: #222;
+            color: white;
+        }
+
+        .btn-valorant {
+            background: #ff4655;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        }
+
+        .btn-valorant:hover {
+            background: white;
+            color: #ff4655;
+            transform: scale(1.05);
+        }
+
+        .info-link {
+            color: #ff4655;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            transition: 0.3s;
+            cursor: pointer;
+            text-shadow: 0 0 12px rgba(255, 70, 85, 0.9);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .info-link:hover {
+            color: white;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            transform: translateX(5px);
+        }
+
+        .modal-content {
+            background: #0f0f0f;
+            border: 1px solid #ff4655;
+            color: white;
+        }
+        .modal-header { border-bottom: 1px solid #222; }
+        .modal-footer { border-top: none; padding-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-md-5 desc-section">
+            <p class="h3 mb-4">¿Listo para plantar la Spike?</p>
+            <p class="lead mb-4">Disfruta de los mejores torneos de Valorant. Elige tu rango y tu rol favorito. Compite contra otros jugadores de tu mismo nivel, juega con tu mejor agente para ganar y demuestra tu habilidad junto a tu equipo.</p>
+
+            <a class="info-link" data-bs-toggle="modal" data-bs-target="#modalInfo">
+                <span class="me-2">▶</span> REGLAMENTO DEL TORNEO
+            </a>
+        </div>
+
+        <div class="col-md-6 offset-md-1">
+            <div class="form-container">
+                <h2 class="mb-4 text-center fw-bold text-uppercase">Inscripción</h2>
+                <form action="{{ url_for('inscribir_juego', nombre_juego='valorant') }}" method="POST">
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-secondary text-uppercase">Riot ID</label>
+                        <input type="text" name="riot_id" class="form-control" placeholder="" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label small fw-bold text-secondary text-uppercase">Nivel</label>
+                            <select name="rango" class="form-select">
+                                <optgroup label="AMATEUR">
+                                    <option value="Hierro">Hierro</option>
+                                    <option value="Bronce">Bronce</option>
+                                    <option value="Plata">Plata</option>
+                                </optgroup>
+                                <optgroup label="NORMAL">
+                                    <option value="Oro">Oro</option>
+                                    <option value="Platino">Platino</option>
+                                    <option value="Diamante">Diamante</option>
+                                </optgroup>
+                                <optgroup label="EXPERT">
+                                    <option value="Ascendente">Ascendente</option>
+                                    <option value="Inmortal">Inmortal</option>
+                                    <option value="Radiante">Radiante</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label small fw-bold text-secondary text-uppercase">Rol</label>
+                            <select name="rol" class="form-select">
+                                <option value="Duelista">Duelista</option>
+                                <option value="Iniciador">Iniciador</option>
+                                <option value="Controlador">Controlador</option>
+                                <option value="Centinela">Centinela</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-valorant w-100 mt-2">Unirse a la batalla</button>
+                </form>
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('panel_torneo') }}" class="text-white-50 text-decoration-none small">← Volver al panel principal</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalInfo" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold text-uppercase">
+                    <span class="valorant-red">ALL STARS</span> | SISTEMA DE COMPETICIÓN
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p class="text-white-50 mb-4">Para asegurar la máxima competitividad y que sea de la manera más justa posible, todos los torneos de ALL STARS Valorant siguen este
+                    sistema:</p>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <h6 class="text-uppercase fw-bold valorant-red">1. EQUILIBRIO TOTAL</h6>
+                        <p class="small text-secondary">Basado en el nivel de dificultad seleccionado, se crearán equipos de manera equilibrada.</p>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <h6 class="text-uppercase fw-bold valorant-red">2. SISTEMA DE PUNTUACIÓN</h6>
+                        <p class="small text-secondary">Se jugarán 3 mapas. Se otorgarán 3 puntos por victoria, 1 por derrota y además se dará un bonus por rendimiento de manera individual.</p>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <h6 class="text-uppercase fw-bold valorant-red">3. RANKING EN TIEMPO REAL</h6>
+                        <p class="small text-secondary">Clasificación actualizada en vivo con todos los resultados del torneo.</p>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <h6 class="text-uppercase fw-bold valorant-red">4. PLAYOFFS</h6>
+                        <p class="small text-secondary">Los 4 mejores equipos de la tabla pasarán a la semifinal y los dos ganadores disputarán la final.</p>
+                    </div>
+                    <div class="col-md-12 text-center mt-2">
+                        <hr class="border-secondary mb-4">
+                        <h6 class="text-uppercase fw-bold">5. GRAN PREMIO: <span class="valorant-red">VALORANT POINTS (VP)</span></h6>
+                        <p class="small text-secondary">¡El premio se lo llevará el que termine primero en el podio!.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-valorant w-100" data-bs-dismiss="modal">ACEPTAR DESAFÍO</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

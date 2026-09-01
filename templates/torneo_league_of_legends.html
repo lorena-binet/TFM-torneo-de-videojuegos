@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscripción League of Legends - ALL STARS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
+                        url("{{ url_for('static', filename='fondo_lol.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .desc-section {
+            padding-right: 40px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.9);
+        }
+
+        /* Nuevo Color Cian Eléctrico / Hextech Blue */
+        .lol-cyan {
+            color: #00eeff;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 238, 255, 0.6);
+        }
+
+        .form-container {
+            background: rgba(5, 10, 20, 0.85); /* Tono azulado muy oscuro */
+            border-radius: 10px;
+            padding: 40px;
+            border-right: 5px solid #00eeff; /* Detalle en cian */
+            backdrop-filter: blur(10px);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.7);
+        }
+
+        .form-control, .form-select {
+            background: #0d1117 !important;
+            border: 1px solid #00eeff44 !important;
+            color: white !important;
+            border-radius: 0;
+        }
+
+        /* Estilo para los grupos de dificultad en el select */
+        optgroup {
+            background: #05080f;
+            color: #00eeff;
+            font-weight: bold;
+            font-style: normal;
+        }
+        option {
+            background: #0d1117;
+            color: white;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #00eeff !important;
+            box-shadow: 0 0 10px rgba(0, 238, 255, 0.2);
+        }
+
+        .btn-lol {
+            background: #00eeff;
+            border: none;
+            color: #000;
+            font-weight: bold;
+            padding: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        }
+
+        .btn-lol:hover {
+            background: white;
+            color: #008899;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 238, 255, 0.4);
+        }
+
+        /* Link de información con resplandor cian */
+        .info-link {
+            color: #00eeff;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            transition: 0.3s;
+            cursor: pointer;
+            text-shadow: 0 0 12px rgba(0, 238, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-link:hover {
+            color: white;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+            transform: translateX(5px);
+        }
+
+        /* Modal adaptado a la estética Kayn/Sombría */
+        .modal-content {
+            background: #05080f;
+            border: 1px solid #00eeff;
+            color: white;
+            box-shadow: 0 0 30px rgba(0, 238, 255, 0.1);
+        }
+        .modal-header { border-bottom: 1px solid #1a2233; }
+        .modal-footer { border-top: none; padding-bottom: 25px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-md-5 desc-section">
+            <p class="h3 mb-4">Bienvenidos a la Grieta del Invocador</p>
+            <p class="lead mb-4">Disfruta de los mejores torneos de League of Legends. Elige tu rango y tu rol favorito. Compite contra otros jugadores
+                de tu mismo nivel y juega con tu mejor campeón para ganar y adquirir premios en RP.</p>
+
+            <a class="info-link" data-bs-toggle="modal" data-bs-target="#modalInfo">
+                <span class="me-2">▶</span> REGLAMENTO DEL TORNEO
+            </a>
+        </div>
+
+        <div class="col-md-6 offset-md-1">
+            <div class="form-container">
+                <h2 class="mb-4 text-center fw-bold text-uppercase" style="color: #00eeff;">Inscripción</h2>
+
+                <form action="{{ url_for('inscribir_juego', nombre_juego='lol') }}" method="POST">
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-secondary text-uppercase">Invocador (RIOT ID)</label>
+                        <input type="text" name="riot_id" class="form-control" placeholder="" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label small fw-bold text-secondary text-uppercase">Nivel</label>
+                            <select name="rango" class="form-select">
+                                <optgroup label="AMATEUR">
+                                    <option value="Hierro">Hierro</option>
+                                    <option value="Bronce">Bronce</option>
+                                    <option value="Plata">Plata</option>
+                                </optgroup>
+                                <optgroup label="NORMAL">
+                                    <option value="Oro">Oro</option>
+                                    <option value="Platino">Platino</option>
+                                    <option value="Esmeralda">Esmeralda</option>
+                                </optgroup>
+                                <optgroup label="EXPERT">
+                                    <option value="Diamante">Diamante</option>
+                                    <option value="Maestro">Maestro</option>
+                                    <option value="Grand Master">Grand Master</option>
+                                    <option value="Challenger">Challenger</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label small fw-bold text-secondary text-uppercase">Rol</label>
+                            <select name="rol" class="form-select">
+                                <option value="Top">Top</option>
+                                <option value="Jungla">Jungla</option>
+                                <option value="Mid">Mid</option>
+                                <option value="ADC">ADC</option>
+                                <option value="Apoyo">Apoyo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-lol w-100 mt-2">Entrar a la Grieta</button>
+                </form>
+
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('panel_torneo') }}" class="text-white-50 text-decoration-none small">← Volver al panel principal</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalInfo" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold text-uppercase">
+                    <span class="lol-cyan">ALL STARS</span> | SISTEMA DE COMPETICIÓN
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p class="text-white-50 mb-4">Para asegurar la máxima competitividad y que sea de la manera más justa posible para todos
+                    los jugadores, todos los torneos de ALL STARS LoL siguen este sistema:</p>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <h6 class="text-uppercase fw-bold lol-cyan">1. EQUILIBRIO TOTAL</h6>
+                        <p class="small text-secondary">Basado en el nivel de dificultad seleccionado, se crearán equipos de manera equilibrada.</p>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <h6 class="text-uppercase fw-bold lol-cyan">2. SISTEMA DE PUNTUACIÓN</h6>
+                        <p class="small text-secondary">Se jugarán 3 mapas. Se otorgarán 3 puntos por victoria, 1 por derrota y además se dará un bonus por rendimiento.</p>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <h6 class="text-uppercase fw-bold lol-cyan">3. TABLA EN TIEMPO REAL</h6>
+                        <p class="small text-secondary">En la web se mostrará una clasificación actualizada en vivo con todos los resultados.</p>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <h6 class="text-uppercase fw-bold lol-cyan">4. PLAYOFFS</h6>
+                        <p class="small text-secondary">Los 4 mejores de la tabla pasarán a una semifinal, y los dos ganadores disputarán la gran final.</p>
+                    </div>
+                    <div class="col-md-12 text-center mt-2">
+                        <hr class="border-secondary mb-4">
+                        <h6 class="text-uppercase fw-bold">5. GRAN PREMIO: <span class="lol-cyan">RIOT POINTS (RP)</span></h6>
+                        <p class="small text-secondary">¡El premio se lo llevará el que termine primero en el podio!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lol w-100" data-bs-dismiss="modal">ACEPTAR DESAFÍO</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

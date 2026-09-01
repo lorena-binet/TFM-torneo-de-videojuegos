@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil de Operativo - ALL STARS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --violet-neon: #bc13fe;
+            --cyan-neon: #00f2ff;
+            --bg-dark: #050505;
+            --panel-bg: rgba(15, 15, 15, 0.98);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(188, 19, 254, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(0, 242, 255, 0.1) 0%, transparent 40%),
+                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            color: white;
+            min-height: 100vh;
+            padding: 40px 20px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* --- CABECERA DE PERFIL --- */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .user-title {
+            font-family: 'Michroma', sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: 15px;
+            color: white;
+            text-shadow: 0 0 20px var(--violet-neon);
+            margin-bottom: 5px;
+        }
+
+        .user-subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: var(--cyan-neon);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        /* --- CONTENEDORES PRINCIPALES --- */
+        .glass-module {
+            background: var(--panel-bg);
+            border: 1px solid rgba(188, 19, 254, 0.3);
+            border-radius: 40px;
+            padding: 40px;
+            height: 100%;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+            position: relative;
+        }
+
+        /* --- AVATAR PRO --- */
+        .avatar-wrapper {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+        }
+
+        .avatar-frame {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            padding: 8px;
+            background: linear-gradient(45deg, var(--violet-neon), var(--cyan-neon));
+            box-shadow: 0 0 25px rgba(188, 19, 254, 0.5);
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #000;
+        }
+
+        .btn-camera-upload {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: var(--cyan-neon);
+            color: black;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 15px var(--cyan-neon);
+        }
+
+        /* --- INFO CARDS --- */
+        .stat-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .stat-box:hover {
+            border-color: var(--violet-neon);
+            background: rgba(188, 19, 254, 0.05);
+        }
+
+        .label-tech {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.6rem;
+            color: var(--violet-neon);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* --- BOTONES --- */
+        .btn-cyber {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.7rem;
+            padding: 12px;
+            border-radius: 50px;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-edit { border: 1px solid var(--cyan-neon); color: var(--cyan-neon); background: transparent; }
+        .btn-edit:hover { background: var(--cyan-neon); color: black; box-shadow: 0 0 20px var(--cyan-neon); }
+
+        .dropdown-danger .dropdown-toggle {
+            color: #555; border: none; background: transparent; font-size: 0.6rem; margin-top: 20px;
+        }
+
+        /* --- BACK BUTTON --- */
+        .floating-back { position: fixed; bottom: 40px; right: 40px; }
+        .btn-back {
+            font-family: 'Michroma'; font-size: 0.75rem; color: white;
+            text-decoration: none; padding: 15px 35px; border-radius: 50px;
+            background: linear-gradient(45deg, var(--violet-neon), transparent);
+            border: 1px solid var(--violet-neon); transition: 0.3s;
+        }
+        .btn-back:hover { box-shadow: 0 0 30px var(--violet-neon); transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+
+<div class="profile-header">
+    <h1 class="user-title">{{ current_user.nombre | upper }}</h1>
+    <p class="user-subtitle">Terminal de Usuario - Acceso Autorizado</p>
+</div>
+
+<div class="container" style="max-width: 1200px;">
+    <div class="row g-4">
+
+        <div class="col-lg-5">
+            <div class="glass-module">
+                <div class="avatar-wrapper">
+                    <div class="avatar-frame">
+                        {% if current_user.foto_perfil %}
+                            <img src="{{ url_for('static', filename='uploads/perfiles/' + current_user.foto_perfil) }}" class="avatar-img" onerror="this.src='https://ui-avatars.com/api/?name={{ current_user.nombre }}&background=bc13fe&color=fff'">
+                        {% else %}
+                            <img src="https://ui-avatars.com/api/?name={{ current_user.nombre }}&background=bc13fe&color=fff" class="avatar-img">
+                        {% endif %}
+                    </div>
+                    <button class="btn-camera-upload" onclick="document.getElementById('fileInput').click();">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                    </button>
+                    <form action="/subir_foto" method="POST" enctype="multipart/form-data" id="photoForm" style="display: none;">
+                        <input type="file" id="fileInput" name="foto" onchange="document.getElementById('photoForm').submit();">
+                    </form>
+                </div>
+
+                <div class="stat-box text-center">
+                    <span class="label-tech">RANGO_SISTEMA</span>
+                    <div style="font-family: 'Orbitron'; font-size: 1.2rem; color: var(--cyan-neon);">
+                        {% if current_user.es_admin %}NIVEL: ADM_ALPHA{% else %}NIVEL: Reclutapytho{% endif %}
+                    </div>
+                </div>
+
+                <div class="stat-box">
+                    <span class="label-tech">PUNTOS_XP_ACUMULADOS</span>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span style="font-size: 1.5rem; font-weight: bold;">{{ current_user.puntos }}</span>
+                        <div style="height: 10px; width: 60%; background: #222; border-radius: 10px; overflow: hidden;">
+                            <div style="width: 45%; height: 100%; background: var(--violet-neon); box-shadow: 0 0 10px var(--violet-neon);"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-cyber btn-edit w-100 mt-3" onclick="habilitarEdicion()">EDITAR IDENTIDAD</button>
+                <div id="edit-area" class="d-none mt-3">
+                    <input type="text" id="nombre-input" class="form-control mb-2" value="{{ current_user.nombre }}" style="background: #000; color: white; border: 1px solid var(--cyan-neon); border-radius: 10px;">
+                    <button class="btn btn-cyber btn-edit w-100" onclick="guardarNombre()">GUARDAR CAMBIOS</button>
+                </div>
+
+                <div class="dropdown dropdown-danger text-center">
+                    <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown">Configuración Avanzada</button>
+                    <ul class="dropdown-menu dropdown-menu-dark p-3" style="border: 1px solid #ff0055; border-radius: 20px;">
+                        <li><p class="small text-secondary">¿Deseas dar de baja tu perfil operativo?</p></li>
+                        <li><button class="btn btn-outline-danger btn-sm w-100" style="border-radius: 50px;" onclick="confirmarBorradoCuenta()">ELIMINAR CUENTA</button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="glass-module" style="border-color: rgba(0, 242, 255, 0.3);">
+                <h2 class="label-tech" style="color: var(--cyan-neon); font-size: 0.8rem; margin-bottom: 30px;">ESTADO_DE_LAS_MISIONES</h2>
+
+                {% if current_user.juego_seleccionado %}
+                    <div style="background: rgba(0, 242, 255, 0.03); border: 1px solid rgba(0, 242, 255, 0.1); border-radius: 30px; padding: 30px;">
+                        <div class="d-flex align-items-center mb-4">
+                            <div style="width: 10px; height: 10px; background: var(--green-neon); border-radius: 50%; margin-right: 15px; box-shadow: 0 0 10px var(--green-neon);"></div>
+                            <h3 class="titulo-michroma m-0" style="font-size: 1.2rem; color: white;">{{ current_user.juego_seleccionado | upper }}</h3>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="stat-box m-0">
+                                    <span class="label-tech">ESTADO</span>
+                                    <span style="color: var(--green-neon); font-size: 0.8rem;">CONFIRMADO</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-box m-0">
+                                    <span class="label-tech">SECTOR</span>
+                                    <span style="color: white; font-size: 0.8rem;">COMPETICIÓN</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 p-3" style="background: rgba(0,0,0,0.4); border-radius: 15px; border-left: 3px solid var(--violet-neon);">
+                            <p class="small text-secondary mb-0">Estás registrado correctamente. El ranking global reflejará tu posición una vez se actualicen los resultados de este sector.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <div style="display: inline-block; background: rgba(188, 19, 254, 0.1); border-radius: 12px; padding: 10px 20px; border: 1px solid rgba(188, 19, 254, 0.2);">
+                        <p class="mb-0" style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #e0e0e0; letter-spacing: 0.5px; line-height: 1.4;">
+                            <span style="color: var(--violet-neon); font-weight: 600;">ℹ️ NOTA DEL SISTEMA:</span>
+                                Actualmente solo se permite una misión activa por jugador. Inscribirte en un nuevo torneo reemplazará tu registro actual.
+                       </p>
+                    </div>
+                </div>
+
+                {% else %}
+                    <div class="text-center" style="padding: 60px 20px;">
+                        <div style="font-size: 4rem; opacity: 0.1; margin-bottom: 20px;">?</div>
+                        <p class="titulo-michroma" style="color: #444; font-size: 0.8rem;">NINGUNA_MISIÓN_DETECTADA</p>
+                        <p class="text-secondary small mb-4">Tu historial de combate está vacío. Debes asignarte a un sector de juego para empezar a acumular gloria.</p>
+                        <a href="{{ url_for('lista_juegos') }}" class="btn btn-cyber btn-edit px-5">ACCEDER AL CATÁLOGO</a>
+                    </div>
+                {% endif %}
+
+                <div class="mt-5">
+                    <h4 class="label-tech">LOGROS_RECIENTES</h4>
+                    <div class="stat-box opacity-50 d-flex align-items-center">
+                        <div style="font-size: 1.5rem; margin-right: 20px;">🏆</div>
+                        <div>
+                            <span class="d-block small fw-bold">BIENVENIDO A ALL STARS</span>
+                            <span class="d-block" style="font-size: 0.7rem;">Has activado tu cuenta con éxito.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="modalBorrarCuenta" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background: #000; border: 2px solid #ff0055; border-radius: 30px; padding: 20px;">
+            <div class="text-center">
+                <h5 class="titulo-michroma text-danger mt-3">¿ELIMINAR REGISTRO?</h5>
+                <p class="text-secondary small">Esta acción eliminará todos tus datos ALL STARS.</p>
+                <div class="d-flex gap-2 justify-content-center mt-4">
+                    <button class="btn btn-cyber btn-edit px-4" data-bs-dismiss="modal">CANCELAR</button>
+                    <form action="{{ url_for('eliminar_mi_cuenta') }}" method="POST">
+                        <button type="submit" class="btn btn-danger btn-cyber px-4">SÍ, ELIMINAR</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="floating-back">
+    <a href="{{ url_for('panel_torneo') }}" class="btn-back">VOLVER AL PANEL PRINCIPAL</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function habilitarEdicion() {
+        document.getElementById('edit-area').classList.toggle('d-none');
+    }
+    function guardarNombre() {
+        const nuevoNombre = document.getElementById('nombre-input').value;
+        const formData = new FormData();
+        formData.append('nombre', nuevoNombre);
+        fetch('/perfil', { method: 'POST', body: formData }).then(r => { if(r.ok) location.reload(); });
+    }
+    function confirmarBorradoCuenta() {
+        new bootstrap.Modal(document.getElementById('modalBorrarCuenta')).show();
+    }
+</script>
+
+</body>
+</html>

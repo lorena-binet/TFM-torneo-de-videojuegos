@@ -1,0 +1,88 @@
+/* --- 1. ESTILOS BASE (Login y Registro - Lila) --- */
+.video-bg, .background-dinamico {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+}
+
+video {
+    min-width: 100%; min-height: 100%;
+    object-fit: cover; filter: brightness(0.4);
+}
+
+.card-custom {
+    background: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid #bc13fe; /* Lila original */
+    border-radius: 15px;
+    color: white;
+}
+
+.btn-violet {
+    /* Degradado de Azul Cian a Lila */
+    background: linear-gradient(90deg, #00f2ff 0%, #bc13fe 100%) !important;
+    color: white;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s;
+    padding: 10px 20px; /* Para que se vea más grande y pro */
+    border-radius: 8px;
+}
+
+.btn-violet:hover {
+    /* Efecto de brillo al pasar el ratón */
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
+    transform: scale(1.02);
+}
+
+.text-violet {
+    color: #bc13fe; /* Lila original */
+}
+
+/* --- ESTILO PARA LOGIN Y REGISTRO (Lila) --- */
+/* Esto asegura que el lila sea el color base en toda la web */
+.card-custom {
+    border: 1px solid #bc13fe !important;
+}
+.text-violet {
+    color: #bc13fe !important;
+}
+.btn-violet {
+    background: #bc13fe !important;
+}
+
+/* --- ESTILO MIXTO PARA EL PANEL (Azul + Lila) --- */
+
+.panel-neon {
+    border: 2px solid #00f2ff !important; /* Borde Azul Cian */
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.4) !important;
+}
+
+/* El título principal lo dejamos en CIAN para que destaque */
+.panel-neon h1, .panel-neon h2 {
+    color: #00f2ff !important;
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+}
+
+/* La palabra 'competición' la ponemos en LILA para hacer el contraste */
+.panel-neon .text-violet {
+    color: #bc13fe !important; /* Volvemos al lila para esta palabra */
+    text-shadow: 0 0 8px rgba(188, 19, 254, 0.5);
+}
+
+/* EL BOTÓN MIXTO: Empieza en Cian y termina en Lila */
+.panel-neon .btn-violet {
+    background: linear-gradient(90deg, #00f2ff 0%, #bc13fe 100%) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: 0.3s all ease;
+}
+
+/* Efecto al pasar el ratón por el botón */
+.panel-neon .btn-violet:hover {
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
+    transform: scale(1.02);
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscripción - {{ juego | title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0a0a0a; color: white; font-family: 'Michroma', sans-serif; display: flex; align-items: center; min-height: 100vh; }
+        .card-inscripcion { background: #111; border: 2px solid #bc13fe; padding: 40px; border-radius: 20px; box-shadow: 0 0 30px rgba(188, 19, 254, 0.2); width: 100%; max-width: 500px; margin: auto; }
+        .form-control, .form-select { background: #000; border: 1px solid #333; color: white; margin-bottom: 20px; }
+        .form-control:focus { background: #050505; border-color: #00f2ff; color: white; box-shadow: 0 0 10px #00f2ff; }
+        .btn-cyber { background: #bc13fe; color: white; width: 100%; border: none; padding: 12px; transition: 0.3s; }
+        .btn-cyber:hover { background: #00f2ff; color: black; box-shadow: 0 0 20px #00f2ff; }
+    </style>
+</head>
+<body>
+    <div class="card-inscripcion text-center">
+        <h2 class="mb-4">TORNEO <span style="color: #00f2ff;">{{ juego | upper }}</span></h2>
+        <p class="small text-secondary mb-4 text-uppercase">Completa tu ficha de inscripción</p>
+
+        <form action="{{ url_for('inscribir_juego', nombre_juego=juego) }}" method="POST">
+            <div class="text-start">
+                <label class="small mb-1">ID DE JUGADOR / NICKNAME</label>
+                <input type="text" name="summoner_name" class="form-control" placeholder="Ej: PlayerOne#1234" required>
+
+                <label class="small mb-1">NIVEL / RANGO ACTUAL</label>
+                <select name="rango" class="form-select" required>
+                    <option value="" disabled selected>Selecciona tu rango</option>
+                    <option value="Principiante">Principiante</option>
+                    <option value="Intermedio">Intermedio</option>
+                    <option value="Avanzado">Avanzado / Pro</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-cyber mt-3">CONFIRMAR INSCRIPCIÓN</button>
+            <a href="{{ url_for('panel_torneo') }}" class="d-block mt-3 text-secondary small text-decoration-none">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>
